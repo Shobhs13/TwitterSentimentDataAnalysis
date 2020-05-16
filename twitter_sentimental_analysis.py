@@ -16,6 +16,13 @@ from wordcloud import WordCloud
 import pandas as pd 
 import numpy as np
 import matplotlib.pyplot as plt
+import re
+import nltk
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+from nltk.tag import pos_tag
+nltk.download('averaged_perceptron_tagger')
+nlp = spacy.load("en_core_web_sm")
 
 #Twitter Credentials
 consumerKey='zrYcrLHpb8miuTchOe0BbqDzR'
@@ -32,3 +39,55 @@ authenticate.set_access_token(accessToken,accessTokenSecret)
 #genrating api
 api=tweepy.API(authenticate,wait_on_rate_limit=True)
 
+#Cleaning the data which include #,@and links:
+def cleantext(text):
+  text = re.sub("@[A-Za-z0-9]+", '',text)
+  text = re.sub("#", '', text)
+  text = re.sub("RT[\s]+", '', text)
+  text = re.sub("https?:\/\/\S+", "", text)
+
+  return text
+
+# Refined dataframe
+df['tweets']=df['tweets'].apply(cleantext)  
+
+# printing dataframe
+df.head()
+
+# to find the subjectivity 
+def Subjectivity(text):
+  return TextBlob(text).sentiment.subjectivity
+
+# to find polarity
+def Polarity(text):
+  return TextBlob(text).sentiment.polarity 
+
+#Tokenization
+def tokenize(text):
+    text = nltk.word_tokenize(text)
+    text = nltk.pos_tag(text)
+    return text 
+
+#New columns for subjectivity and polarity
+df['subjectivity']=df['tweets'].apply(Subjectivity)
+df['polarity']=df['tweets'].apply(Polarity)
+df['tokenize']=df['tweets'].apply(tokenize)
+
+#printing dataframe
+df.head(10)
+
+#Tweets analysis 
+
+def Analysis(score): #function
+  if score>0 :
+   return 'Positive' #positive tweet
+  elif score == 0 :
+   return 'Neutral' #neutal tweet
+  else :
+    return 'Negative' #negative tweet
+
+#New column Review
+df['Review']=df['polarity'].apply(Analysis)
+
+#printing dataframe
+df.head()
