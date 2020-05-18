@@ -25,10 +25,10 @@ nltk.download('averaged_perceptron_tagger')
 nlp = spacy.load("en_core_web_sm")
 
 #Twitter Credentials
-consumerKey='zrYcrLHpb8miuTchOe0BbqDzR'
-consumerSecret='O35T9BdKdCQrPOZzNGPgdR4xNrsk9SXlm4qbnBstGji12vzvJR'
-accessToken='1022555461755785221-GLFeu1D19k6al6pp9SPownhhxkyTsv'
-accessTokenSecret='LDxFAUs5EGmzvBZTk7PYDyBh3Qnv4LVTSqTt16O7Zqzb5'
+consumerKey={Enter Consumer Key}
+consumerSecret={Enter Consumer Secret}
+accessToken={Enter Access Token}
+accessTokenSecret={Enter Access token Secret}
 
 #authenticating customer credentials
 authenticate=tweepy.OAuthHandler(consumerKey,consumerSecret)
