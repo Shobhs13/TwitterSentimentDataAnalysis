@@ -91,3 +91,66 @@ df['Review']=df['polarity'].apply(Analysis)
 
 #printing dataframe
 df.head()
+
+# Printing out negative tweets
+print('Printing negative tweets:\n')
+j=1
+negativeDF = df.sort_values(by=['polarity'], ascending=False)
+for i in range (0, negativeDF.shape[0]):
+  if( negativeDF['Review'][i]=='Negative'):
+     print(str(j) + ') ' + negativeDF['tweets'][i] )
+     print()
+     j=j+1
+
+#Postive tweets 
+print("Printing positive tweets: \n")
+positiveDF=df.sort_values(by=['polarity'])
+j=1
+for i in range (0, positiveDF.shape[0]):
+  if( negativeDF['Review'][i]=='Positive'):
+     print(str(j) + ') ' + positiveDF['tweets'][i] )
+     print()
+     j=j+1
+
+#Neutral tweets 
+print("Printing Neutral tweets: \n")
+neutralDF=df.sort_values(by=['polarity'])
+j=1
+for i in range (0, positiveDF.shape[0]):
+  if( neutralDF['Review'][i]=='Neutral'):
+     print(str(j) + ') ' + neutralDF['tweets'][i] )
+     print()
+     j=j+1
+        
+# Plotting the subjectivity and polarity
+plt.figure(figsize=(10,8))
+plt.scatter(df['polarity'], df['subjectivity'], )
+plt.title('sentimental Analysis')
+plt.xlabel('Polarity')
+plt.ylabel('subjectivity')
+plt.show()
+plt.savefig('sub&polarity.png')     
+
+# Percentage negative tweets per 150 tweets 
+ntweets = df[df['Review']== 'Negative']
+round (ntweets.shape[0]/df.shape[0]* 100, 1)
+
+# Percentage positive tweets per 150 tweets
+ptweets = df[df['Review']== 'Positive']
+round (ptweets.shape[0]/df.shape[0]* 100,1)
+
+# Percentage neutral tweets per 150 tweets 
+netweets = df[df['Review']== 'Neutral']
+round (netweets.shape[0]/df.shape[0]* 100, 1)
+
+#Value counts
+df['Review'].value_counts()
+
+# Plotting the data
+plt.title('Sentiment Analysis')
+plt.xlabel('Sentiment')
+plt.ylabel('Counts')
+df['Review'].value_counts().plot(kind='bar')
+plt.show()
+plt.savefig('percentage.png')
+
