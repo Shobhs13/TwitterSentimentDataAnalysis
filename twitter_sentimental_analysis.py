@@ -39,6 +39,22 @@ authenticate.set_access_token(accessToken,accessTokenSecret)
 #genrating api
 api=tweepy.API(authenticate,wait_on_rate_limit=True)
 
+# Extract tweets from twitter 
+posts = api.user_timeline(screen_name="elonmusk", count=150, lang="en", tweet_mode="extended")
+
+#TO get first 15 tweets
+print("The first 15 tweets are: \n")
+i=1
+for tweet in posts[0:15]:
+      print(str(i) + ') ' + tweet.full_text, '\n' )
+      i=i+1
+    
+#Creating a DataFrame
+df=pd.DataFrame([tweet.full_text for tweet in posts], columns=['tweets'])
+
+#printing out 10 rows
+df.head(10)    
+
 #Cleaning the data which include #,@and links:
 def cleantext(text):
   text = re.sub("@[A-Za-z0-9]+", '',text)
